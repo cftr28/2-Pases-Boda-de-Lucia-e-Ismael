@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Invitación Ismael y Lucia</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-sobre: #4a3424; 
+            --color-sobre-oscuro: #3d2a1d;
+            --color-solapa: #5c4434;
+            --dorado-brillante: #e5cf9e;
+            --dorado-oscuro: #b8955a;
+            --fondo: #f5f2ed;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            height: -webkit-fill-available;
+            font-family: 'Georgia', serif;
+            background-color: var(--fondo);
+            overflow: hidden;
+            position: fixed;
+        }
+
+        .viewport-container {
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; height: 100vh; height: calc(var(--vh, 1vh) * 100);
+            width: 100%; padding: 20px;
+        }
+
+        /* --- EL SOBRE --- */
+        .sobre-wrapper {
+            position: relative;
+            width: 90vw;
+            max-width: 440px;
+            aspect-ratio: 5 / 3.4;
+            cursor: pointer;
+            perspective: 1000px;
+            z-index: 10;
+        }
+
+        .sobre-cuerpo {
+            position: absolute;
+            bottom: 0; width: 100%; height: 100%;
+            background-color: var(--color-sobre);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 25px; 
+        }
+
+        .nombre-sobre {
+            color: var(--dorado-brillante);
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(20px, 5.5vw, 28px);
+            text-align: center;
+            padding: 0 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+
+        .solapa {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--color-solapa);
+            clip-path: polygon(0 0, 100% 0, 50% 50%); 
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: top;
+            z-index: 30;
+            display: flex;
+            justify-content: center;
+            filter: drop-shadow(0 4px 5px rgba(0,0,0,0.3));
+        }
+
+        .monograma {
+            margin-top: 22px; 
+            color: rgba(255, 255, 255, 0.15);
+            font-size: clamp(28px, 8vw, 42px);
+            letter-spacing: 10px;
+        }
+
+        .texto-guia {
+            margin-top: 35px;
+            font-size: 0.7rem;
+            color: var(--dorado-oscuro);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            max-width: 80%;
+            line-height: 1.5;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        .abrir-sobre .solapa { transform: rotateX(180deg); z-index: 5; }
+
+        /* --- TARJETA INTERIOR --- */
+        #seccion-pase {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--fondo);
+            display: none; flex-direction: column; justify-content: center;
+            align-items: center; opacity: 0; transition: opacity 0.8s ease-in;
+            z-index: 100; padding: 20px;
+        }
+
+        .tarjeta-detalle {
+            width: 100%; max-width: 420px; padding: 40px 20px;
+            background: #ffffff; border-radius: 4px; text-align: center;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1); position: relative;
+        }
+
+        .tarjeta-detalle::after {
+            content: ""; position: absolute; top: 10px; bottom: 10px; left: 10px; right: 10px;
+            border: 1px solid #f0e6d6; pointer-events: none;
+        }
+
+        .boda-titulo { font-size: 2.2rem; color: var(--color-sobre); margin: 0 0 10px 0; }
+        
+        .invitacion-texto {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            letter-spacing: 1px;
+        }
+
+        .fecha-bloque {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .fecha-item { color: var(--color-sobre); font-weight: bold; }
+        .fecha-dia-n { font-size: 2rem; border-left: 1px solid #ddd; border-right: 1px solid #ddd; padding: 0 15px; }
+        .fecha-mes-anio { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; text-align: left; }
+
+        .caja-invitado {
+            background-color: #fcfaf8; padding: 15px 10px; margin: 20px 0;
+            border-top: 1px solid #f0e6d6; border-bottom: 1px solid #f0e6d6;
+        }
+
+        .pases-n { 
+            color: var(--color-sobre); 
+            font-size: 1rem; 
+            font-weight: bold;
+            letter-spacing: 2px; 
+            text-transform: uppercase;
+        }
+
+        .info-evento { font-size: 0.9rem; line-height: 1.6; color: #444; }
+        .info-evento strong { color: var(--dorado-oscuro); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; display: block; margin-top: 15px; }
+        
+        .nota-final { margin-top: 30px; font-size: 0.65rem; color: #bbb; text-transform: uppercase; letter-spacing: 1.5px; }
+
+    </style>
+</head>
+<body>
+
+    <div id="seccion-sobre" class="viewport-container">
+        <div class="sobre-wrapper" id="sobre" onclick="ejecutarApertura()">
+            <div class="solapa">
+                <div class="monograma">IL</div>
+            </div>
+            <div class="sobre-cuerpo">
+                <div class="nombre-sobre">Boda Ismael y Lucia</div>
+            </div>
+        </div>
+        <div class="texto-guia" onclick="ejecutarApertura()">Toca para abrir tus 2 pases disponibles</div>
+    </div>
+
+    <div id="seccion-pase">
+        <div class="tarjeta-detalle">
+            <div class="boda-titulo">Ismael y Lucia</div>
+            <div class="invitacion-texto">Tenemos el honor de invitarlos a celebrar nuestra unión el día</div>
+
+            <div class="fecha-bloque">
+                <div class="fecha-item" style="font-size: 0.8rem; letter-spacing: 2px;">SÁBADO</div>
+                <div class="fecha-item fecha-dia-n">22</div>
+                <div class="fecha-mes-anio">
+                    AGOSTO<br>2026
+                </div>
+            </div>
+
+            <div class="caja-invitado">
+                <div class="pases-n">PASE PARA 2 PERSONAS</div>
+            </div>
+
+            <div class="info-evento">
+                <strong>Ceremonia Religiosa</strong>
+                Basílica Menor Católica Nuestra Señora de La Merced<br>
+                Guayaquil, Ecuador · 17:30 hs
+
+                <br>
+                
+                <strong>Recepción</strong>
+                Ciudadela "Las Garzas"<br>
+                Guayaquil, Ecuador · 19:30 hs
+            </div>
+
+            <p class="nota-final">Favor presentar este pase al ingresar</p>
+        </div>
+    </div>
+
+    <script>
+        function ajustarAltura() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        window.addEventListener('resize', ajustarAltura);
+        ajustarAltura();
+
+        let abierta = false;
+        function ejecutarApertura() {
+            if (abierta) return;
+            abierta = true;
+            document.getElementById('sobre').classList.add('abrir-sobre');
+            setTimeout(() => {
+                document.getElementById('seccion-sobre').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('seccion-sobre').style.display = 'none';
+                    const pase = document.getElementById('seccion-pase');
+                    pase.style.display = 'flex';
+                    requestAnimationFrame(() => { pase.style.opacity = '1'; });
+                }, 600);
+            }, 800);
+        }
+    </script>
+</body>
+</html>
