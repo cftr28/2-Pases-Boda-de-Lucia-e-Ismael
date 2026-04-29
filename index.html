@@ -15,22 +15,32 @@
             --dorado-brillante: #e5cf9e;
             --dorado-oscuro: #b8955a;
             --fondo: #f5f2ed;
+            /* Variable para altura real en móviles */
+            --vh: 1vh;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            /* Suavizado de fuentes para iOS y Android */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
         body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            height: -webkit-fill-available;
+            margin: 0; padding: 0; width: 100%; 
+            height: 100vh; /* Fallback */
+            height: calc(var(--vh, 1vh) * 100);
             font-family: 'Georgia', serif;
             background-color: var(--fondo);
             overflow: hidden;
-            position: fixed;
+            position: fixed; /* Evita el scroll "rebote" en iOS */
         }
 
         .viewport-container {
             display: flex; flex-direction: column; justify-content: center;
-            align-items: center; height: 100vh; height: calc(var(--vh, 1vh) * 100);
+            align-items: center; 
+            height: 100%; 
             width: 100%; padding: 20px;
         }
 
@@ -38,11 +48,14 @@
         .sobre-wrapper {
             position: relative;
             width: 90vw;
-            max-width: 440px;
+            max-width: 400px; /* Ajustado ligeramente para mejor fit */
             aspect-ratio: 5 / 3.4;
             cursor: pointer;
-            perspective: 1000px;
+            perspective: 1200px;
             z-index: 10;
+            /* Previene selección de texto al tocar */
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .sobre-cuerpo {
@@ -62,7 +75,7 @@
         .nombre-sobre {
             color: var(--dorado-brillante);
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(20px, 5.5vw, 28px);
+            font-size: clamp(20px, 6vw, 28px);
             text-align: center;
             padding: 0 20px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
@@ -79,18 +92,20 @@
             z-index: 30;
             display: flex;
             justify-content: center;
-            filter: drop-shadow(0 4px 5px rgba(0,0,0,0.3));
+            /* Mejora de renderizado 3D para móviles */
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
         .monograma {
             margin-top: 22px; 
             color: rgba(255, 255, 255, 0.15);
-            font-size: clamp(28px, 8vw, 42px);
+            font-size: clamp(28px, 9vw, 42px);
             letter-spacing: 10px;
         }
 
         .texto-guia {
-            margin-top: 35px;
+            margin-top: 30px;
             font-size: 0.7rem;
             color: var(--dorado-oscuro);
             letter-spacing: 2px;
@@ -103,21 +118,40 @@
 
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-        .abrir-sobre .solapa { transform: rotateX(180deg); z-index: 5; }
+        .abrir-sobre .solapa { 
+            transform: rotateX(180deg); 
+            z-index: 5; 
+        }
 
         /* --- TARJETA INTERIOR --- */
         #seccion-pase {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; 
+            top: 0; left: 0; width: 100%; 
+            height: 100%;
+            height: calc(var(--vh, 1vh) * 100);
             background-color: var(--fondo);
-            display: none; flex-direction: column; justify-content: center;
-            align-items: center; opacity: 0; transition: opacity 0.8s ease-in;
-            z-index: 100; padding: 20px;
+            display: none; 
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center; 
+            opacity: 0; 
+            transition: opacity 0.8s ease-in;
+            z-index: 100; 
+            padding: 20px;
         }
 
         .tarjeta-detalle {
-            width: 100%; max-width: 420px; padding: 40px 20px;
-            background: #ffffff; border-radius: 4px; text-align: center;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.1); position: relative;
+            width: 100%; 
+            max-width: 380px; 
+            padding: 30px 20px;
+            background: #ffffff; 
+            border-radius: 4px; 
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1); 
+            position: relative;
+            /* Evita que se corte en pantallas muy pequeñas (iPhone SE) */
+            max-height: 95vh;
+            overflow-y: auto;
         }
 
         .tarjeta-detalle::after {
@@ -125,12 +159,12 @@
             border: 1px solid #f0e6d6; pointer-events: none;
         }
 
-        .boda-titulo { font-size: 2.2rem; color: var(--color-sobre); margin: 0 0 10px 0; }
+        .boda-titulo { font-size: clamp(1.8rem, 8vw, 2.2rem); color: var(--color-sobre); margin: 0 0 10px 0; }
         
         .invitacion-texto {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #777;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             line-height: 1.4;
             letter-spacing: 1px;
         }
@@ -139,34 +173,34 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
-            margin: 20px 0;
+            gap: 10px;
+            margin: 15px 0;
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
-            padding: 15px 0;
+            padding: 10px 0;
         }
 
         .fecha-item { color: var(--color-sobre); font-weight: bold; }
-        .fecha-dia-n { font-size: 2rem; border-left: 1px solid #ddd; border-right: 1px solid #ddd; padding: 0 15px; }
-        .fecha-mes-anio { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; text-align: left; }
+        .fecha-dia-n { font-size: 1.8rem; border-left: 1px solid #ddd; border-right: 1px solid #ddd; padding: 0 12px; }
+        .fecha-mes-anio { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; text-align: left; }
 
         .caja-invitado {
-            background-color: #fcfaf8; padding: 15px 10px; margin: 20px 0;
+            background-color: #fcfaf8; padding: 12px 10px; margin: 15px 0;
             border-top: 1px solid #f0e6d6; border-bottom: 1px solid #f0e6d6;
         }
 
         .pases-n { 
             color: var(--color-sobre); 
-            font-size: 1rem; 
+            font-size: 0.9rem; 
             font-weight: bold;
-            letter-spacing: 2px; 
+            letter-spacing: 1.5px; 
             text-transform: uppercase;
         }
 
-        .info-evento { font-size: 0.9rem; line-height: 1.6; color: #444; }
-        .info-evento strong { color: var(--dorado-oscuro); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; display: block; margin-top: 15px; }
+        .info-evento { font-size: 0.85rem; line-height: 1.5; color: #444; }
+        .info-evento strong { color: var(--dorado-oscuro); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; display: block; margin-top: 12px; }
         
-        .nota-final { margin-top: 30px; font-size: 0.65rem; color: #bbb; text-transform: uppercase; letter-spacing: 1.5px; }
+        .nota-final { margin-top: 25px; font-size: 0.6rem; color: #bbb; text-transform: uppercase; letter-spacing: 1.5px; }
 
     </style>
 </head>
@@ -190,7 +224,7 @@
             <div class="invitacion-texto">Tenemos el honor de invitarlos a celebrar nuestra unión el día</div>
 
             <div class="fecha-bloque">
-                <div class="fecha-item" style="font-size: 0.8rem; letter-spacing: 2px;">SÁBADO</div>
+                <div class="fecha-item" style="font-size: 0.75rem; letter-spacing: 1.5px;">SÁBADO</div>
                 <div class="fecha-item fecha-dia-n">22</div>
                 <div class="fecha-mes-anio">
                     AGOSTO<br>2026
@@ -205,9 +239,7 @@
                 <strong>Ceremonia Religiosa</strong>
                 Basílica Menor Católica Nuestra Señora de La Merced<br>
                 Guayaquil, Ecuador · 17:30 hs
-
                 <br>
-                
                 <strong>Recepción</strong>
                 Ciudadela "Las Garzas"<br>
                 Guayaquil, Ecuador · 19:30 hs
@@ -218,25 +250,36 @@
     </div>
 
     <script>
+        // Cálculo preciso de altura para evitar problemas con barras de navegación móviles
         function ajustarAltura() {
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
         }
+        
         window.addEventListener('resize', ajustarAltura);
+        window.addEventListener('orientationchange', ajustarAltura);
         ajustarAltura();
 
         let abierta = false;
         function ejecutarApertura() {
             if (abierta) return;
             abierta = true;
-            document.getElementById('sobre').classList.add('abrir-sobre');
+            
+            const sobre = document.getElementById('sobre');
+            const seccionSobre = document.getElementById('seccion-sobre');
+            const seccionPase = document.getElementById('seccion-pase');
+
+            sobre.classList.add('abrir-sobre');
+            
+            // Tiempos ajustados para fluidez en procesadores móviles
             setTimeout(() => {
-                document.getElementById('seccion-sobre').style.opacity = '0';
+                seccionSobre.style.opacity = '0';
                 setTimeout(() => {
-                    document.getElementById('seccion-sobre').style.display = 'none';
-                    const pase = document.getElementById('seccion-pase');
-                    pase.style.display = 'flex';
-                    requestAnimationFrame(() => { pase.style.opacity = '1'; });
+                    seccionSobre.style.display = 'none';
+                    seccionPase.style.display = 'flex';
+                    // Forzar reflow para animación suave
+                    void seccionPase.offsetWidth; 
+                    seccionPase.style.opacity = '1';
                 }, 600);
             }, 800);
         }
